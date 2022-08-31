@@ -5,6 +5,8 @@ import com.srt.srt.dto.EncodeRequestDto;
 import com.srt.srt.service.UrlService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -14,14 +16,17 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:8080",  "http://localhost:63342"})
+@CrossOrigin(origins = {"${itj.web.server}", "${itj.web.local}"})
 public class UrlController {
 
     private final UrlService urlService;
 
+    @Value("${itj.web.local}")
+    private String local;
+
     @PostMapping("/api/shorten")
     public ApiResponse shortenUrl(@RequestBody EncodeRequestDto encodeRequestDto){
-        return ApiResponse.success(HttpStatus.OK, "localhost:8080/" + urlService.getShortUrl(encodeRequestDto));
+        return ApiResponse.success(HttpStatus.OK, local + urlService.getShortUrl(encodeRequestDto));
     }
 
     @GetMapping("/{shortUrl}")
