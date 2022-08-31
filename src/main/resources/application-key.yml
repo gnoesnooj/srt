@@ -1,0 +1,5 @@
+
+itj:
+  web:
+    server: 'http://localhost:63342/'
+    local: 'http://localhost:8080/'
